@@ -108,11 +108,11 @@ if st.button("CALCULAR OPERACIÓN", use_container_width=True):
         st.metric("Tu Costo USDT", f"{costo_efectivo_usdt:.2f} Bs")
 
     if costo_efectivo_usdt < tasa_p2p:
-        st.success(f"✅ ¡CONVIENE COMPRAR POR BDV/BPAY!")
+        st.success(f"✅ ¡CONVIENE COMPRAR POR BPAY!")
         st.info(f"📈 Brecha a favor: **{porcentaje_ganancia:.2f}%**")
         st.info(f"💰 Te ahorras/ganas: **{ganancia_bs:.2f} Bs**")
     else:
-        st.error(f"❌ NO CONVIENE. Mejor usa el P2P directo.")
+        st.error(f"❌ NO CONVIENE BPAY. Mejor usa el P2P directo.")
         st.error(f"📉 Estás pagando **{abs(porcentaje_ganancia):.2f}%** de más.")
 
 st.markdown("---")
