@@ -74,9 +74,11 @@ if st.button("CALCULAR OPERACIÓN", use_container_width=True):
     usdt_recibidos = monto_bruto_bpay_seguro * (1 - com_bpay)
 
     # 3. Calcular el costo total en Bolívares que gastaste
-    # Nota: Tu costo original en bolívares fue (Total_Disponible * Tasa_BDV * 1.005)
-    # pero para el cálculo de costo efectivo, nos basamos en los Bs equivalentes de los dólares usados.
-    total_bs_debitados = (monto_bruto_bpay_seguro * tasa_bdv) * (1 + com_uso_tarjeta)
+    # Reintegramos el 0.5% de comisión por compra de divisa en el BDV
+    com_compra_divisa = 0.005
+    costo_usd_en_cuenta = tasa_bdv * (1 + com_compra_divisa)
+    
+    total_bs_debitados = (monto_bruto_bpay_seguro * costo_usd_en_cuenta) * (1 + com_uso_tarjeta)
     
     # Costo real de cada USDT obtenido
     costo_efectivo_usdt = total_bs_debitados / usdt_recibidos
@@ -114,5 +116,4 @@ if st.button("CALCULAR OPERACIÓN", use_container_width=True):
         st.error(f"📉 Estás pagando **{abs(porcentaje_ganancia):.2f}%** de más.")
 
 st.markdown("---")
-st.caption("Configurado con comisiones: BDV Tarjeta (2.5%) y Bpay (3.3%)")
-st.caption("Se asume que ya pagaste el 0.5% del BDV al comprar la divisa.")
+st.caption("Configurado con comisiones: BDV (0.5% + 2.5%) y Bpay (3.3%)")
