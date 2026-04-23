@@ -17,7 +17,7 @@ com_compra_divisa = 0.005
 com_uso_tarjeta = 0.025
 com_bpay = 0.033
 
-if st.button("CALCULAR GANANCIA", use_container_width=True):
+if st.button("CALCULAR DIFERENCIA", use_container_width=True):
     # Lógica Matemática
     costo_usd_en_cuenta = tasa_bdv * (1 + com_compra_divisa)
     total_bs_pagados = (monto_usd * costo_usd_en_cuenta) * (1 + com_uso_tarjeta)
@@ -36,7 +36,7 @@ if st.button("CALCULAR GANANCIA", use_container_width=True):
     col2.metric("Tu Costo", f"{costo_efectivo_tarjeta:.2f} Bs")
 
     if costo_efectivo_tarjeta < tasa_p2p:
-        st.success(f"✅ ¡CONVIENE! Ganas {porcentaje:.2f}%")
+        st.success(f"✅ ¡CONVIENE USAR TARJETA! Ganas {porcentaje:.2f}%")
         st.info(f"💰 Ahorro/Ganancia: **{ganancia_total_bs:.2f} Bs**")
     else:
         st.error(f"❌ NO CONVIENE. P2P es más barato.")
