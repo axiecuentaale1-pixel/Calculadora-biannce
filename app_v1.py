@@ -90,7 +90,8 @@ if st.button("CALCULAR DIFERENCIA", use_container_width=True):
 
     if costo_efectivo_usdt < tasa_p2p:
         st.success(f"✅ ¡CONVIENE COMPRAR POR BPAY! Ganas {porcentaje_ganancia:.2f}%")
-        st.info(f"💰 Te ahorras/ganas: **{ganancia_bs:.2f} Bs**")
+        ganancia_usdt = ganancia_bs / tasa_p2p
+        st.info(f"💰 Te ahorras/ganas: **{ganancia_bs:.2f} Bs** (~{ganancia_usdt:.2f} USDT)")
     else:
         st.error(f"❌ NO CONVIENE BPAY. Mejor usa el P2P directo.")
         st.error(f"📉 Estás pagando **{abs(porcentaje_ganancia):.2f}%** de más.")
