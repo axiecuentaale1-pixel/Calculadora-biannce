@@ -51,7 +51,7 @@ with st.container():
 
 # Comisiones configuradas
 com_uso_tarjeta = 0.025    
-com_bpay = 0.033           
+com_bpay = 0.036           
 
 # Botón con el texto original "CALCULAR DIFERENCIA"
 if st.button("CALCULAR DIFERENCIA", use_container_width=True):
@@ -97,4 +97,4 @@ if st.button("CALCULAR DIFERENCIA", use_container_width=True):
         st.error(f"📉 Estás pagando **{abs(porcentaje_ganancia):.2f}%** de más.")
 
 # Footer limpio sin líneas extras
-st.caption("Configurado con comisiones: BDV (0.5% + 2.5%) y Bpay (3.3%)")
+st.caption("Configurado con comisiones: BDV (0.5% + 2.5%) y Bpay (3.6%)")
