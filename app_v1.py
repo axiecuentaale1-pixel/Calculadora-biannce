@@ -173,7 +173,7 @@ except Exception:
 
 def guardar_operacion(tipo, inversion, recibido, ganancia, porcentaje):
     if conn is None:
-        st.warning(":material/warning: Conexión a Google Sheets no configurada. (Revisa tus st.secrets)")
+        st.warning("Conexión a Google Sheets no configurada. (Revisa tus st.secrets)", icon=":material/warning:")
         return
     try:
         df = conn.read()
@@ -191,11 +191,11 @@ def guardar_operacion(tipo, inversion, recibido, ganancia, porcentaje):
         
         df_actualizado = pd.concat([df, nueva_fila], ignore_index=True)
         conn.update(data=df_actualizado)
-        st.success(":material/check_circle: Operación guardada en la Nube correctamente.")
+        st.success("Operación guardada en la Nube correctamente.", icon=":material/check_circle:")
     except Exception as e:
-        st.error(f"Error al guardar en Google Sheets: {e}")
+        st.error(f"Error al guardar en Google Sheets: {e}", icon=":material/error:")
 
-tab1, tab2, tab_arb, tab3 = st.tabs([":material/bar_chart: Tradicional", ":material/track_changes: Modo Meta", ":material/sync_alt: Arbitraje", ":material/history: Historial"])
+tab1, tab2, tab_arb, tab3 = st.tabs(["Tradicional", "Modo Meta", "Arbitraje", "Historial"])
 
 # ========================
 # TAB 1 - TRADICIONAL
@@ -254,15 +254,15 @@ with tab1:
             st.metric("Tu Costo", f"{costo_efectivo_usdt:.2f} Bs")
 
         if costo_efectivo_usdt < tasa_p2p and usdt_recibidos > 0:
-            st.success(f":material/check_circle: ¡CONVIENE COMPRAR POR BPAY! Ganas {porcentaje_ganancia:.2f}%")
+            st.success(f"¡CONVIENE COMPRAR POR BPAY! Ganas {porcentaje_ganancia:.2f}%", icon=":material/check_circle:")
             ganancia_usdt = ganancia_bs / tasa_p2p
-            st.info(f":material/savings: Te ahorras/ganas: **{ganancia_bs:.2f} Bs** (~{ganancia_usdt:.2f} USDT)")
+            st.info(f"Te ahorras/ganas: **{ganancia_bs:.2f} Bs** (~{ganancia_usdt:.2f} USDT)", icon=":material/savings:")
         else:
-            st.error(f":material/cancel: NO CONVIENE BPAY. Mejor usa el P2P directo.")
-            st.error(f":material/trending_down: Estás pagando **{abs(porcentaje_ganancia):.2f}%** de más.")
+            st.error("NO CONVIENE BPAY. Mejor usa el P2P directo.", icon=":material/cancel:")
+            st.error(f"Estás pagando **{abs(porcentaje_ganancia):.2f}%** de más.", icon=":material/trending_down:")
             
         st.markdown("---")
-        if st.button(":material/cloud_upload: Guardar Operación en la Nube", key="save_trad"):
+        if st.button("Guardar Operación en la Nube", icon=":material/cloud_upload:", key="save_trad"):
             guardar_operacion("Tradicional", total_bs_debitados, usdt_recibidos, ganancia_bs, porcentaje_ganancia)
 
 # ========================
@@ -305,27 +305,27 @@ with tab2:
             st.metric("Tu Costo Real", f"{costo_efectivo_usdt:.2f} Bs/USDT")
             
         if costo_efectivo_usdt < tasa_p2p_inv and meta_usdt > 0:
-            st.success(f":material/check_circle: ¡CONVIENE COMPRAR POR BPAY! Ganas {porcentaje_ganancia:.2f}%")
+            st.success(f"¡CONVIENE COMPRAR POR BPAY! Ganas {porcentaje_ganancia:.2f}%", icon=":material/check_circle:")
             ganancia_usdt = ganancia_bs / tasa_p2p_inv
-            st.info(f":material/savings: Te ahorras: **{ganancia_bs:,.2f} Bs** (~{ganancia_usdt:.2f} USDT) respecto al P2P.")
+            st.info(f"Te ahorras: **{ganancia_bs:,.2f} Bs** (~{ganancia_usdt:.2f} USDT) respecto al P2P.", icon=":material/savings:")
         else:
-            st.error(f":material/cancel: NO CONVIENE BPAY. Mejor compra los {meta_usdt} USDT directo en P2P.")
+            st.error(f"NO CONVIENE BPAY. Mejor compra los {meta_usdt} USDT directo en P2P.", icon=":material/cancel:")
             
         st.markdown("---")
-        if st.button(":material/cloud_upload: Guardar Operación en la Nube", key="save_inv"):
+        if st.button("Guardar Operación en la Nube", icon=":material/cloud_upload:", key="save_inv"):
             guardar_operacion("Inverso", bs_totales_requeridos, meta_usdt, ganancia_bs, porcentaje_ganancia)
 
 # ========================
 # TAB ARB - ARBITRAJE
 # ========================
 with tab_arb:
-    st.subheader(":material/sync_alt: Arbitraje Completo")
+    st.subheader("Arbitraje Completo")
     st.markdown("Simula el ciclo completo y descubre si el arbitraje es rentable.")
     
     modo = st.radio("Selecciona cómo vas a iniciar:", ["Comenzar con USDT en Binance", "Comenzar con Bolívares en el BDV"], horizontal=True)
     
     if modo == "Comenzar con USDT en Binance":
-        usdt_inicial = st.number_input(":material/payments: USDT a Vender en P2P", min_value=0.0, value=100.00, step=1.00, key="arb_usdt_in")
+        usdt_inicial = st.number_input("USDT a Vender en P2P", min_value=0.0, value=100.00, step=1.00, key="arb_usdt_in")
                 
         if st.button("CALCULAR ARBITRAJE", use_container_width=True, key="btn_arb_1"):
             tasa_p2p_venta = tasa_p2p_global
@@ -403,16 +403,16 @@ with tab_arb:
             """, unsafe_allow_html=True)
             
             if ganancia_usdt > 0:
-                st.success(":material/check_circle: ¡El arbitraje es rentable!")
+                st.success("¡El arbitraje es rentable!", icon=":material/check_circle:")
             else:
-                st.error(":material/cancel: El arbitraje arroja pérdidas.")
+                st.error("El arbitraje arroja pérdidas.", icon=":material/cancel:")
                 
             st.markdown("---")
-            if st.button(":material/cloud_upload: Guardar Operación en la Nube", key="save_arb_1"):
+            if st.button("Guardar Operación en la Nube", icon=":material/cloud_upload:", key="save_arb_1"):
                 guardar_operacion("Arbitraje (USDT)", bs_obtenidos, usdt_final, ganancia_usdt * tasa_p2p_venta, rentabilidad)
 
     else:
-        bs_iniciales = st.number_input(":material/payments: Bolívares Disponibles (Bs)", min_value=0.0, value=50000.00, step=100.0, key="arb_bs_in")
+        bs_iniciales = st.number_input("Bolívares Disponibles (Bs)", min_value=0.0, value=50000.00, step=100.0, key="arb_bs_in")
                 
         if st.button("CALCULAR ARBITRAJE", use_container_width=True, key="btn_arb_2"):
             tasa_bdv_compra = tasa_bdv_global
@@ -490,21 +490,21 @@ with tab_arb:
             """, unsafe_allow_html=True)
             
             if ganancia_bs > 0:
-                st.success(":material/check_circle: ¡El arbitraje es rentable!")
+                st.success("¡El arbitraje es rentable!", icon=":material/check_circle:")
             else:
-                st.error(":material/cancel: El arbitraje arroja pérdidas.")
+                st.error("El arbitraje arroja pérdidas.", icon=":material/cancel:")
                 
             st.markdown("---")
-            if st.button(":material/cloud_upload: Guardar Operación en la Nube", key="save_arb_2"):
+            if st.button("Guardar Operación en la Nube", icon=":material/cloud_upload:", key="save_arb_2"):
                 guardar_operacion("Arbitraje (Bs)", bs_iniciales, usdt_final, ganancia_bs, rentabilidad)
 
 # ========================
 # TAB 3 - HISTORIAL
 # ========================
 with tab3:
-    st.subheader(":material/history: Historial de Operaciones en Google Sheets")
+    st.subheader("Historial de Operaciones en Google Sheets")
     if conn is None:
-        st.warning(":material/warning: Para ver el historial, debes configurar los Secrets de Google Sheets en Streamlit Cloud.")
+        st.warning("Para ver el historial, debes configurar los Secrets de Google Sheets en Streamlit Cloud.", icon=":material/warning:")
     else:
         try:
             df = conn.read()
@@ -520,10 +520,10 @@ with tab3:
                 
                 st.dataframe(df, use_container_width=True)
                 
-                if st.button(":material/refresh: Actualizar Datos"):
+                if st.button("Actualizar Datos", icon=":material/refresh:"):
                     st.rerun()
         except Exception as e:
-            st.error(":material/error: No se pudo leer la base de datos de la nube. Asegúrate de que la hoja exista y tenga permisos.")
+            st.error("No se pudo leer la base de datos de la nube. Asegúrate de que la hoja exista y tenga permisos.", icon=":material/error:")
             st.write(e)
 
 st.markdown("---")
