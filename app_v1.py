@@ -20,6 +20,10 @@ st.markdown("""
     html, body, [class*="st-"] {
         font-family: 'Inter', sans-serif;
     }
+    /* Proteger la fuente de los iconos para que no sea sobrescrita por Inter */
+    .material-symbols-rounded {
+        font-family: 'Material Symbols Rounded' !important;
+    }
     .stNumberInput > div > div > input {
         background-color: #1a1a2e;
         color: #e0e0e0;
