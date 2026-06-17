@@ -17,12 +17,13 @@ st.markdown("""
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,400,0,0');
     
-    html, body, [class*="st-"] {
+    html, body, .stApp {
         font-family: 'Inter', sans-serif;
     }
-    /* Proteger la fuente de los iconos para que no sea sobrescrita por Inter */
+    /* Proteger la fuente de los iconos */
     .material-symbols-rounded {
         font-family: 'Material Symbols Rounded' !important;
+        font-weight: normal !important;
     }
     .stNumberInput > div > div > input {
         background-color: #1a1a2e;
@@ -195,7 +196,7 @@ def guardar_operacion(tipo, inversion, recibido, ganancia, porcentaje):
     except Exception as e:
         st.error(f"Error al guardar en Google Sheets: {e}", icon=":material/error:")
 
-tab1, tab2, tab_arb, tab3 = st.tabs(["Tradicional", "Modo Meta", "Arbitraje", "Historial"])
+tab1, tab2, tab_arb, tab3 = st.tabs([":material/bar_chart: Tradicional", ":material/track_changes: Modo Meta", ":material/sync_alt: Arbitraje", ":material/history: Historial"])
 
 # ========================
 # TAB 1 - TRADICIONAL
@@ -319,13 +320,13 @@ with tab2:
 # TAB ARB - ARBITRAJE
 # ========================
 with tab_arb:
-    st.subheader("Arbitraje Completo")
+    st.subheader(":material/sync_alt: Arbitraje Completo")
     st.markdown("Simula el ciclo completo y descubre si el arbitraje es rentable.")
     
     modo = st.radio("Selecciona cómo vas a iniciar:", ["Comenzar con USDT en Binance", "Comenzar con Bolívares en el BDV"], horizontal=True)
     
     if modo == "Comenzar con USDT en Binance":
-        usdt_inicial = st.number_input("USDT a Vender en P2P", min_value=0.0, value=100.00, step=1.00, key="arb_usdt_in")
+        usdt_inicial = st.number_input(":material/payments: USDT a Vender en P2P", min_value=0.0, value=100.00, step=1.00, key="arb_usdt_in")
                 
         if st.button("CALCULAR ARBITRAJE", use_container_width=True, key="btn_arb_1"):
             tasa_p2p_venta = tasa_p2p_global
@@ -412,7 +413,7 @@ with tab_arb:
                 guardar_operacion("Arbitraje (USDT)", bs_obtenidos, usdt_final, ganancia_usdt * tasa_p2p_venta, rentabilidad)
 
     else:
-        bs_iniciales = st.number_input("Bolívares Disponibles (Bs)", min_value=0.0, value=50000.00, step=100.0, key="arb_bs_in")
+        bs_iniciales = st.number_input(":material/payments: Bolívares Disponibles (Bs)", min_value=0.0, value=50000.00, step=100.0, key="arb_bs_in")
                 
         if st.button("CALCULAR ARBITRAJE", use_container_width=True, key="btn_arb_2"):
             tasa_bdv_compra = tasa_bdv_global
@@ -502,7 +503,7 @@ with tab_arb:
 # TAB 3 - HISTORIAL
 # ========================
 with tab3:
-    st.subheader("Historial de Operaciones en Google Sheets")
+    st.subheader(":material/history: Historial de Operaciones en Google Sheets")
     if conn is None:
         st.warning("Para ver el historial, debes configurar los Secrets de Google Sheets en Streamlit Cloud.", icon=":material/warning:")
     else:
